@@ -16,14 +16,14 @@ var argv = require('minimist')(process.argv.slice(2));
 gulp.task('javascript', function () {
   // set up the browserify instance on a task basis
   var b = browserify({
-    entries: './entry.js',
+    entries: './lib/wait-man.js',
     debug: true,
     // defining transforms here will avoid crashing your stream
     transform: [reactify]
   });
 
   return b.bundle()
-    .pipe(source('app.js'))
+    .pipe(source('wait-man.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks to the pipeline here.
@@ -46,9 +46,14 @@ gulp.task('bump-version', function () {
     .pipe(gulp.dest('./'));
 });
 
+gulp.task('add-changes', function () {
+  return gulp.src('.')
+    .pipe(git.add());
+});
+
 gulp.task('commit-changes', function () {
   return gulp.src('.')
-    .pipe(git.commit('[Prerelease] Bumped version number', {args: '-a'}));
+    .pipe(git.commit('[Prerelease] Bumped version number'));
 });
 
 gulp.task('push-changes', function (cb) {
@@ -73,6 +78,7 @@ gulp.task('create-new-tag', function (cb) {
 gulp.task('release', function (callback) {
   runSequence(
     'bump-version',
+    'add-changes',
     'commit-changes',
     'push-changes',
     'create-new-tag',
