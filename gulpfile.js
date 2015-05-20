@@ -30,7 +30,7 @@ gulp.task('javascript', function () {
         .pipe(uglify())
         .on('error', gutil.log)
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./dist/js/'));
+    .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('bump-version', function () {
@@ -53,7 +53,7 @@ gulp.task('add-changes', function () {
 
 gulp.task('commit-changes', function () {
   return gulp.src('.')
-    .pipe(git.commit('[Prerelease] Bumped version number'));
+    .pipe(git.commit('New release ready.'));
 });
 
 gulp.task('push-changes', function (cb) {
@@ -77,6 +77,7 @@ gulp.task('create-new-tag', function (cb) {
 
 gulp.task('release', function (callback) {
   runSequence(
+    'javascript',
     'bump-version',
     'add-changes',
     'commit-changes',
