@@ -25,6 +25,10 @@ describe('WaitMan module', function(){
   it('has Waiter constructor',function(){
     expect(typeof waitMan.Waiter).toBe('function');
   });
+  
+  it('has WaiterCollection constructor',function(){
+    expect(typeof waitMan.WaiterCollection).toBe('function');
+  });
 });
 
 describe('WaitMan.Waiter instance', function(){
