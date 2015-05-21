@@ -87,4 +87,24 @@ describe('WaitMan.Waiter instance', function(){
       done();
     });
   });
+  
+  it('can be aborted', function(done){
+    waiter.test = function(){ return async_complete; };
+    waiter.interval = 10;
+    waiter.aborted = true;
+    
+    var async_uid = '';
+    var beganAt = +new Date();
+    waiter.tick(function(uid){
+      // The following should not be run
+      // thus it is meant to fail.
+      expect(waiter.aborted).toBeTruthy();
+      done();
+    });
+    
+    setTimeout(function(){
+      expect(waiter.aborted).toBeTruthy();
+      done();
+    }, 100);
+  });
 });
