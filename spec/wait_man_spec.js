@@ -27,12 +27,12 @@ describe('WaitMan module', function(){
   });
 });
 
-describe('WaitMan.Waiter', function(){
+describe('WaitMan.Waiter instance', function(){
   beforeAll(function(){
     waitMan = new WaitMan();
     waiter = new waitMan.Waiter();
     async_complete = false;
-    dummy_async = setTimeout(function(){async_complete = true}, 2000);
+    dummy_async = setTimeout(function(){async_complete = true}, 500);
   });
   
   it('hates not being fed a success callback function', function(){
@@ -64,7 +64,21 @@ describe('WaitMan.Waiter', function(){
     var beganAt = +new Date();
     waiter.tick(function(uid){
       var elapsed = +new Date() - beganAt;
-      expect(elapsed).toBeGreaterThan(2000);
+      expect(elapsed).toBeGreaterThan(500);
+      expect(uid).toEqual(waiter.uid);
+      done();
+    });
+  });
+  
+  it('has an interval property which determines tick time', function(done){
+    waiter.test = function(){ return async_complete; };
+    waiter.interval = 1000;
+    
+    var async_uid = '';
+    var beganAt = +new Date();
+    waiter.tick(function(uid){
+      var elapsed = +new Date() - beganAt;
+      expect(elapsed).toBeGreaterThan(1000);
       expect(uid).toEqual(waiter.uid);
       done();
     });
