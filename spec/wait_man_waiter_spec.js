@@ -11,7 +11,7 @@ describe('WaitMan.Waiter instance', function(){
   it('hates not being fed a success callback function', function(){
     var error = false;
     try{
-      waiter.tick();
+      waiter.begin();
     }catch(err){
       error = true;
     }
@@ -33,9 +33,8 @@ describe('WaitMan.Waiter instance', function(){
   it('waits for test function to return true', function(done){
     waiter.test = function(){ return async_complete; };
 
-    var async_uid = '';
     var beganAt = +new Date();
-    waiter.tick(function(uid){
+    waiter.begin(function(uid){
       var elapsed = +new Date() - beganAt;
       expect(elapsed == 499 || elapsed == 500 || elapsed == 501).toBeTruthy();
       expect(uid).toEqual(waiter.uid);
@@ -47,9 +46,8 @@ describe('WaitMan.Waiter instance', function(){
     waiter.test = function(){ return async_complete; };
     waiter.interval = 1000;
 
-    var async_uid = '';
     var beganAt = +new Date();
-    waiter.tick(function(uid){
+    waiter.begin(function(uid){
       var elapsed = +new Date() - beganAt;
       expect(elapsed == 999 || elapsed == 1000 || elapsed == 1001).toBeTruthy();
       expect(uid).toEqual(waiter.uid);
@@ -60,19 +58,36 @@ describe('WaitMan.Waiter instance', function(){
   it('can be aborted', function(done){
     waiter.test = function(){ return async_complete; };
     waiter.interval = 10;
-    waiter.aborted = true;
 
-    var async_uid = '';
-    var beganAt = +new Date();
-    waiter.tick(function(uid){
+    waiter.begin(function(uid){
       // The following should not be run
       // thus it is meant to fail.
+      expect(false).toBeTruthy();
+      done();
+    });
+
+    waiter.abort();
+    setTimeout(function(){
       expect(waiter.aborted).toBeTruthy();
+      done();
+    }, 100);
+  });
+  
+  it('can timeout', function(done){
+    waiter.test = function(){ return false; };
+    waiter.interval = 10;
+    waiter.timeout = 50;
+
+    waiter.begin(function(uid){
+      // The following should not be run
+      // thus it is meant to fail.
+      expect(false).toBeTruthy();
       done();
     });
 
     setTimeout(function(){
       expect(waiter.aborted).toBeTruthy();
+      expect(waiter.elapsed() >= 50 && waiter.elapsed() <= 61).toBeTruthy();
       done();
     }, 100);
   });

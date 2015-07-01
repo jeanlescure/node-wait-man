@@ -32,8 +32,8 @@ describe('WaitMan.WaiterCollection instance', function(){
 
       async_complete_a = false;
       async_complete_b = false;
-      dummy_async_a = setTimeout(function(){async_complete_a = true}, 250);
-      dummy_async_b = setTimeout(function(){async_complete_b = true}, 500);
+      dummy_async_a = setTimeout(function(){async_complete_a = true;}, 250);
+      dummy_async_b = setTimeout(function(){async_complete_b = true;}, 500);
     });
 
     it('can initiate contained Waiter instances', function(done){
@@ -97,6 +97,24 @@ describe('WaitMan.WaiterCollection instance', function(){
       expect(waiterCollection.pending_waiters.length).toBe(2);
       expect(waiterCollection.successful_waiters.length).toBe(0);
       expect(waiterCollection.aborted_waiters.length).toBe(0);
+    });
+    
+    it('can timeout',function(done){
+      waiterCollection.waiters[0].interval = 25;
+      waiterCollection.waiters[0].test = function(){ return async_complete_a; };
+      waiterCollection.waiters[1].interval = 25;
+      waiterCollection.waiters[1].test = function(){ return false; };
+      waiterCollection.interval = 50;
+      waiterCollection.timeout = 300;
+
+      waiterCollection.onDone = function(){
+        expect(waiterCollection.waiters[0].successful).toBeTruthy();
+        expect(waiterCollection.waiters[1].aborted).toBeTruthy();
+        expect(waiterCollection.elapsed() >= 300 && waiterCollection.elapsed() <= 351).toBeTruthy();
+        done();
+      };
+
+      waiterCollection.begin();
     });
   });
 });
