@@ -37,7 +37,7 @@ describe('WaitMan.Waiter instance', function(){
     var beganAt = +new Date();
     waiter.tick(function(uid){
       var elapsed = +new Date() - beganAt;
-      expect(elapsed).toBeGreaterThan(500);
+      expect(elapsed == 499 || elapsed == 500 || elapsed == 501).toBeTruthy();
       expect(uid).toEqual(waiter.uid);
       done();
     });
@@ -51,7 +51,7 @@ describe('WaitMan.Waiter instance', function(){
     var beganAt = +new Date();
     waiter.tick(function(uid){
       var elapsed = +new Date() - beganAt;
-      expect(elapsed).toBeGreaterThan(1000);
+      expect(elapsed == 999 || elapsed == 1000 || elapsed == 1001).toBeTruthy();
       expect(uid).toEqual(waiter.uid);
       done();
     });
