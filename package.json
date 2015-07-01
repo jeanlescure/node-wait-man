@@ -1,6 +1,6 @@
 {
   "name": "wait-man",
-  "version": "1.0.0-rc",
+  "version": "1.0.0-rc.1",
   "description": "Waiting Manager makes testing for asynchronous calls easy as pie.",
   "main": "./lib/wait-man.js",
   "scripts": {
