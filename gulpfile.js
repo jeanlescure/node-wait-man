@@ -37,7 +37,7 @@ gulp.task('bump-version', function () {
 //Note: I have hardcoded the version change type to 'patch' but it may be a good idea to use 
 //      minimist (https://www.npmjs.com/package/minimist) to determine with a command argument whether you are doing 
 //      a 'major', 'minor' or a 'patch' change.
-  var version_type = 'minor';
+  var version_type = 'patch';
   if (typeof argv.patch !== 'undefined') version_type = 'patch';
   if (typeof argv.minor !== 'undefined') version_type = 'minor';
   if (typeof argv.major !== 'undefined') version_type = 'major';
