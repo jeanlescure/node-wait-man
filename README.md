@@ -11,7 +11,7 @@ To install simply run:
 
 ### Instantiation in a regular NodeJS environment would look like this:
 
-```
+```javascript
   waitMan = new WaitMan();
   waiterCollection = new waitMan.WaiterCollection();
   waiter_a = new waitMan.Waiter();
@@ -32,7 +32,7 @@ To install simply run:
 
 ### Useful methods and properties:
 
-```
+```javascript
 waiterCollection.interval // Property which determines in milliseconds how often to poll waiters (default: 100)
 waiterCollection.abort(); // Stop waiting
 
