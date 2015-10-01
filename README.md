@@ -1,5 +1,11 @@
-# Node Wait Manager Package
+# NodeJS Wait Manager Package
 Waiting Manager makes testing for asynchronous calls easy as pie. Originally created tu use along with `jasmine` specs, to allow waiting for BackboneJS and AngularJS multiple models and views to load before running specs.
+
+## Installation
+
+To install simply run:
+
+`$ npm install --save node-wait-man`
 
 ## Usage
 
