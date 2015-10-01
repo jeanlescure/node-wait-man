@@ -1,5 +1,5 @@
 # ![Alarm Clock](https://cdnjs.cloudflare.com/ajax/libs/fatcow-icons/20130425/FatCow_Icons32x32/clock_.png)NodeJS Wait Manager Package
-Waiting Manager makes testing for asynchronous calls easy as pie. Originally created tu use along with `jasmine` specs, to allow waiting for BackboneJS and AngularJS multiple models and views to load before running specs.
+Waiting Manager makes testing for asynchronous calls easy as pie. Originally created to use along with `jasmine` specs, to allow waiting for BackboneJS and AngularJS multiple models and views to load before running specs.
 
 ## Installation
 
