@@ -5,20 +5,25 @@ Waiting Manager makes testing for asynchronous calls easy as pie. Originally cre
 
 To install simply run:
 
-`$ npm install --save node-wait-man`
+`$ npm install --save wait-man`
 
 ## Usage
 
 ### Instantiation in a regular NodeJS environment would look like this:
 
 ```javascript
+  WaitMan = require('wait-man');
   waitMan = new WaitMan();
+  
   waiterCollection = new waitMan.WaiterCollection();
   waiter_a = new waitMan.Waiter();
   waiter_b = new waitMan.Waiter();
   
   waiter_a.test = function(){ return async_complete_a; }; // check for some boolean global variable
   waiter_b.test = function(){ return async_complete_b; }; // check for some boolean global variable
+  
+  waiterCollection.waiters.push(waiter_a);
+  waiterCollection.waiters.push(waiter_b);
   
   // Do something when collection of waiters have completed
   waiterCollection.onDone = function(){
